@@ -1,0 +1,67 @@
+omp 11
+//6 - September - 2018
+// HW 1
+
+Written #0
+
+	vim - weakness: hard to quit out of, had to look up how to do so
+      	  
+      	  strength: simple layout, easier to navigate than nano
+	
+	emacs - weakness: can't seem to use the backspace (? is that normal?)
+        
+            strength : COLOR CODED!
+
+	sublime - weakness: not on Halligan computers
+          	  
+          	  strength: literally everything else (backspace, navigate without arrow keys, color coded)
+
+I will use sublime for homework, and have been slowly learning emacs/nano/vim for lab purposes.
+
+
+
+Written #1
+
+	Psuedo code for add8.cpp:
+
+	1.) get the 8 floating pt numbers from user (input)
+	2.) sum the 8 numbers together (process)
+	3.) print to screen the sum (output)
+
+	note: decided to execute using a while loop to make program concise and mutable for future purposes if necessary, and makes input of numbers more user friendly as I ran into issues with just asking for the numbers at once.
+
+	Variables:
+
+	1.) numTrack: type int, how many numbers to be inputted, also used to increment for the while loop
+	2.) sumFloat: type float, sum of the 8 numbers, updated on each loop
+	3.) numIn: type float, number that user inputs on each increment, changes each loop.
+
+	Questions:
+
+	1.) How to get the numbers from user? 
+			-would I need 8 different cin>>? 
+				No; loop fixed this problem
+
+			-would they input as list? 
+				No; loop fixed this problem
+
+			-how to deal with improper spacing/input from user? 
+				If there wasn't a loop, the program should specify the requirements to the user and explain requirements for inputting the 8 numbers
+
+
+	2.) should the program only execute if and only if float values are inputted? should the program also handle double and int?
+
+		No; the program should be mutable and user friendly; a non CS person might not understand what a float number is.
+
+	3.) Do I need a seperate var (sumFloat) to represent the sum or just print to screen the answer (i.e. print directly the var1 + var2 +...+ varn)?
+
+		Maybe; it can make keeping track of what is what and can make the program easier to read for other people. It is also easier to type cout << sumFloat than having a long line.
+
+
+
+
+Written #2
+
+	I ran into a process problem when designing the change.cpp program. I understand the objective but had difficulty in translating my ideas to the page (which I will actively work on to improve my coding skills).
+
+	I found multiple solutions and went with the one that made the most sense process wise to me even if it wasn't the most efficient or "best" solution. Hopefully I will revisit the problem at the end of the semester and see how I'd tackle the problem then. 

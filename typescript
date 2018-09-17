@@ -1,0 +1,42 @@
+Script started on Thu 06 Sep 2018 08:02:57 PM EDT
+vm-hw09{arose10}39: hostname
+vm-hw09
+vm-hw09{arose10}40: who
+jowen03  pts/0        2018-09-06 18:28 (10.245.165.139)
+nr       pts/1        2018-09-06 16:31 (labrador.eecs.tufts.edu)
+edietr01 pts/2        2018-09-06 19:46 (10.244.141.217)
+jowen03  pts/3        2018-09-06 18:28 (vm-hw09.eecs.tufts.edu)
+arose10  pts/4        2018-09-06 19:55 (10.247.141.89)
+jseo01   pts/5        2018-09-06 19:13 (10.245.157.111)
+arose10  pts/6        2018-09-06 19:59 (10.247.141.89)
+arose10  pts/7        2018-09-06 20:02
+lderui01 pts/8        2018-09-06 17:33 (pool-108-7-198-173.bstnma.fios.verizon.net)
+sbeatt01 pts/9        2018-09-06 17:55 (10.247.140.98)
+mcampb03 pts/12       2018-09-06 18:38 (209-6-51-227.s4065.c3-0.smr-cbr1.sbo-smr.ma.cable.rcncustomer.com)
+vm-hw09{arose10}41: w
+ 20:03:15 up 2 days,  9:17, 11 users,  load average: 0.00, 0.01, 0.05
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+jowen03  pts/0    10.245.165.139   18:28    1:10m  0.31s  0.20s ssh jowen03@homework.cs.tufts.edu
+nr       pts/1    labrador.eecs.tu 16:31    2:36m  2.35s  2.09s fish
+edietr01 pts/2    10.244.141.217   19:46   27.00s  0.12s  0.12s -tcsh
+jowen03  pts/3    vm-hw09.eecs.tuf 18:28    1:10m  0.11s  0.11s -tcsh
+arose10  pts/4    10.247.141.89    19:55    3:55   0.12s  0.12s -tcsh
+jseo01   pts/5    10.245.157.111   19:13   16:51   0.14s  0.14s -tcsh
+arose10  pts/6    10.247.141.89    19:59    3.00s  0.12s  0.00s script
+arose10  pts/7                     20:02    3.00s  0.08s  0.03s w
+lderui01 pts/8    pool-108-7-198-1 17:33    5:07   0.86s  0.21s sshd: lderui01 [priv]
+sbeatt01 pts/9    10.247.140.98    17:55    1:37m  0.14s  0.00s nano add8.cpp
+mcampb03 pts/12   209-6-51-227.s40 18:38    1:08m  0.17s  0.00s nano written.text
+vm-hw09{arose10}42: pwd
+/h/arose10/comp11/hw1
+vm-hw09{arose10}43: ls -l
+total 8
+-rw-------. 1 arose10 games 731 Sep  6 20:01 digits.cpp
+-rw-------. 1 arose10 games  22 Sep  6 17:30 #hello.cpp#
+-rw-------. 1 arose10 games   0 Sep  6 20:02 typescript
+-rw-------. 1 arose10 games  15 Sep  6 19:31 #written.text#
+-rw-------. 1 arose10 games 327 Sep  6 19:34 written.text
+vm-hw09{arose10}44: exit
+exit
+
+Script done on Thu 06 Sep 2018 08:03:31 PM EDT
