@@ -1,0 +1,88 @@
+// written.txt
+// Author : Alyssa Rose
+// Date : September-14-2018
+// Comp11 - hw2
+
+
+bicycles.cpp How I Did It:
+	
+	-variables:
+		-frames : number of frames available (int)
+		-wheels : number of wheels available (int)
+		-links : number of links available (int)
+		-bikes : number of bikes that can be made (int)
+
+	-Pseudocode:
+		1.) get variables from user input
+
+		2.) create conditional statements to check if user puts in a value greater than or equal to zero
+
+		3.) if; values for everything is greater than the min needed (i.e. frame >=1, wheels >=2, links >= 50) a while loop can be used to readjust values for every variable after every iteration (where bike # is the counter)
+
+		4.) else; outputs the amount of leftover parts and prints number of bikes made and number of leftover parts for each inputted variable.
+
+	-Conditionals:
+		1.) if statement to check variables >= 0
+
+		2.) if statement to determine number of bikes (only stepped into if at least 1 bike can be made)
+		
+		3.) else prints out remaining parts, or prints out original input if even 1 bike couldn't be made.
+
+
+
+Fixing style errors in code:
+	
+	// header comments
+
+	int main()
+	{ 
+		int age = 50;
+		age = age + 50;
+		string name = "Sally";
+		string job = "Super Star";
+
+        //comment about why/how it does its task
+        if ((name == "Sally") && (job == "Super Star") {
+            cout << "Hi Sally" << endl;
+			cout << "You are a super star!!" << endl;
+
+			// I would try to shorten the conditional in
+			//some way to void the wrap around text
+			
+        	if ( ((age == 100) || (age != 42)) && (name != job)) { 
+        		cout << "Have a nice day!" << endl;
+			}
+		} 
+
+		else {
+			cout << "This isn't Sally...Goodbye!!" << endl;
+		}
+
+		return 0;
+	}
+
+
+
+Testing Rock, Paper, Scissors:
+
+	I tested my program by inputting 7 different things:
+		1.) 'r'
+		2.) 'p'
+		3.) 's'
+		4.) 'R'
+		5.) 'P'
+		6.) 'S'
+		7.) 'g'
+
+	the first 6 were tested to see if the program correctly returned one of the three statements:
+
+		1.) "Computer chose: blank. It's a draw"
+		2.) "Computer chose: blank. You Lose!"
+		3.) "Computer chose: blank. You Win!"
+
+	and the last input was used to see if the statement "Please only play r, p, or s" was returned. The program gave me the expected outputs for each of my inputs, which is how I know it worked.
+
+
+Name That Tune:
+
+	"Tired of Being Alone" - Al Green
