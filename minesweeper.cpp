@@ -22,7 +22,7 @@ int main(){
 	print_board(board_print);
 	int num_x = hid_board(board_actual);
 	print_board(board_actual);
-
+	cout << num_x << endl;
 	int outcome = 0, mine, tries = 0;
 	while (outcome == 0){
 		int row, col;
@@ -42,7 +42,7 @@ int main(){
 			board_print[row][col] = mine;
 			print_board(board_print);
 			tries++;
-			if (tries == num_x){
+			if (tries == (82 - num_x)){
 				print_board(board_print);
 				cout << "GAME OVER. YOU WON!" << endl;
 				outcome = 1;
@@ -93,11 +93,21 @@ void print_board (char board[SIZE][SIZE]){
 
 int num_mines (int row, int col, char board[SIZE][SIZE])
 {
-	//check if 'x' in vicinity
 	int row_bk = row - 1;
+	if (row_bk < 0)
+		row_bk = 0;
+
 	int row_fwd = row + 1;
+	if (row_fwd > 8)
+		row_fwd = 8;
+
 	int col_bk = col - 1;
+	if (col_bk < 0)
+		col_bk = 0;
+
 	int col_fwd = col + 1;
+	if (col_fwd > 8)
+		col_fwd = 8;
 	int cnt = 0;
 
 	for (int i = row_bk; i <= row_fwd; i++){
