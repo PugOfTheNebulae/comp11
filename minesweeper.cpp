@@ -10,19 +10,20 @@ const int SIZE = 10;
 
 void print_board (char board[SIZE][SIZE]);
 void first_board (char board[SIZE][SIZE]);
-void hid_board (char board[SIZE][SIZE]);
-int num_mines (int row, int col, char board);
+int hid_board (char board[SIZE][SIZE]);
+int num_mines (int row, int col, char board[SIZE][SIZE]);
 
 int main(){
 
 	char board_print[SIZE][SIZE];
 	char board_actual[SIZE][SIZE];
+
 	first_board(board_print);
 	print_board(board_print);
-	hid_board(board_actual);
+	int num_x = hid_board(board_actual);
 	print_board(board_actual);
 
-	int outcome = 0, mine;
+	int outcome = 0, mine, tries = 0;
 	while (outcome == 0){
 		int row, col;
 		cout << "Enter the row and column of the square to uncover: ";
@@ -31,38 +32,43 @@ int main(){
 
 		if (board_actual[row][col] == 'x'){
 			outcome = 1;
-			for (int i = 0; i < (SIZE - 1); i++){
-				for (int j = 0; j < (SIZE - 1); j++){
-					if (board_actual[i][j] == 'x')
-						board_print[i][j] = 'x';
-				}
-			}
-			print_board(board_print);
+			print_board(board_actual);
 			cout << "GAME OVER. YOU LOST!" << endl;
 		}
 
 		else {
 			mine = num_mines(row, col, board_actual);
-			board_print[row][col] = mine + '\0';
+			mine += '0';
+			board_print[row][col] = mine;
 			print_board(board_print);
+			tries++;
+			if (tries == num_x){
+				print_board(board_print);
+				cout << "GAME OVER. YOU WON!" << endl;
+				outcome = 1;
+			}
+
 		}
 	}
-
 	return 0;
 }
 
-void hid_board (char board[SIZE][SIZE]){
-	srand(time(NULL)); 
+int hid_board (char board[SIZE][SIZE]){
+	srand(time(NULL));
+	int tries = 0; 
 	for (int i = 0; i < (SIZE - 1); i++){
 		for (int j = 0; j < (SIZE - 1); j++){
 			bool prob = rand() % 10 < 3;
-			if (prob)
+			if (prob){
 				board[i][j] = 'x';
+				tries++;
+			}
 			else
-				board[i][j] = 'o';
+				board[i][j] = '-';
 
 		}
 	}
+	return tries;
 }
 
 void first_board (char board[SIZE][SIZE]){
@@ -94,10 +100,11 @@ int num_mines (int row, int col, char board[SIZE][SIZE])
 	int col_fwd = col + 1;
 	int cnt = 0;
 
-	for (int i = row_bk; i < row_fwd; i++){
-		for (int j = col_bk; j < col_fwd; j++){
-			if (board[row][col] == 'x')
+	for (int i = row_bk; i <= row_fwd; i++){
+		for (int j = col_bk; j <= col_fwd; j++){
+			if (board[i][j] == 'x')
 				cnt++;
 		}
 	}
+	return cnt;
 }
