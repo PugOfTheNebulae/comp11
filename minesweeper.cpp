@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const int SIZE = 10;
+const int SIZE = 9;
 
 
 void print_board (char board[SIZE][SIZE]);
@@ -42,7 +42,7 @@ int main(){
 			board_print[row][col] = mine;
 			print_board(board_print);
 			tries++;
-			if (tries == (82 - num_x)){
+			if (tries == ((SIZE*SIZE) + 1 - num_x)){
 				print_board(board_print);
 				cout << "GAME OVER. YOU WON!" << endl;
 				outcome = 1;
@@ -56,8 +56,8 @@ int main(){
 int hid_board (char board[SIZE][SIZE]){
 	srand(time(NULL));
 	int tries = 0; 
-	for (int i = 0; i < (SIZE - 1); i++){
-		for (int j = 0; j < (SIZE - 1); j++){
+	for (int i = 0; i < SIZE; i++){
+		for (int j = 0; j < SIZE; j++){
 			bool prob = rand() % 10 < 3;
 			if (prob){
 				board[i][j] = 'x';
@@ -72,8 +72,8 @@ int hid_board (char board[SIZE][SIZE]){
 }
 
 void first_board (char board[SIZE][SIZE]){
-	for (int i = 0; i < (SIZE - 1) ; i++){
-		for (int j = 0; j < (SIZE - 1); j++){
+	for (int i = 0; i < SIZE; i++){
+		for (int j = 0; j < SIZE; j++){
 			board[i][j] = '-';
 		}
 	}
@@ -81,9 +81,9 @@ void first_board (char board[SIZE][SIZE]){
 
 void print_board (char board[SIZE][SIZE]){
 	cout << "  0 1 2 3 4 5 6 7 8 \n";
-	for (int i = 0; i < (SIZE - 1); i++){
+	for (int i = 0; i < SIZE; i++){
 		string m = " ";
-		for (int j = 0; j < (SIZE - 1); j++){
+		for (int j = 0; j < SIZE; j++){
 			m = m + board[i][j] + " ";
 		}
 		cout << i << m << endl;
