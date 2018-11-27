@@ -65,6 +65,8 @@ void highScoresList::save() {
 * returns an int representing the highest score in the list
 */
 int highScoresList::highestScore(){
+    if (head == nullptr)
+        return 0;
     return head->val;
 }
 
@@ -72,6 +74,8 @@ int highScoresList::highestScore(){
 * s
 */
 void highScoresList::print(){
+    if (head == nullptr)
+        exit(1);
     while (head->next != NULL){
         std::cout << head->name << " " << head->val << endl;
         head = head->next;
@@ -84,9 +88,11 @@ void highScoresList::print(){
 */
 void highScoresList::printTop5(){
     int count = 0;
+    if (head == nullptr);
+        exit(1);
     while ((head->next != NULL) or count < 5){
-        std::cout << head->name << " " << head->val << endl;
-        head = head->next;
+        std::cout << head -> user << " " << head -> val << endl;
+        head = head -> next;
         count++;
     }
 
@@ -98,6 +104,7 @@ void highScoresList::printTop5(){
 */
 void highScoresList::keepTop10(){
     int count = 0;
+    if (head == nullptr);
     if (highScoresList.length() < 10)
         exit(1);
     else {
@@ -125,10 +132,11 @@ void highScoresList::keepTop10(){
 * if scores are tied, the new node comes first
 */
 void highScoresList::insert(std::string user, int score){
-    NodePtr tempPtr = new Node;
-    tempPtr -> name = user;
+    Node *tempPtr = new Node;
+    tempPtr = head;
+    tempPtr -> user = user;
     tempPtr -> val = score;
-    Node *after = after(score, head);
+    Node *after = after(score);
     tempPtr -> next = after -> next;
     after -> next = tempPtr;
 }
@@ -138,8 +146,8 @@ void highScoresList::insert(std::string user, int score){
 * sets pointer to NULL
 */
 void highScoresList::clear(){
-    if (n = 0)
-        return;
+    if (head = nullptr)
+        exit(1);
     while (head -> next != NULL){
         head -> next = head -> next -> next;
         delete head -> next;
@@ -151,9 +159,10 @@ void highScoresList::clear(){
 * for that user in sorted orer
 */
 void highScoresList::printUser(std::string user){
-    NodePtr temp = head;
+    Node *temp = new Node;
+    temp = head;
     while (temp -> next != NULL){
-        if (temp -> name == user){
+        if (temp -> user == user){
             std::cout << user << " " << temp -> val << endl;
         }
         temp = temp -> next;
@@ -161,20 +170,25 @@ void highScoresList::printUser(std::string user){
 
 }
 
-// Node * after(int val, Node *head){
-//     NodePtr temp = head;
-//     while (temp -> next -> next != NULL){
-//         if (temp -> next = NULL)
-//             return temp;
-//         if ((temp -> next > val) and (temp -> next -> next < val))
-//             return temp;
-//         temp = temp -> next
-//     }
+Node *after(int score){
+    Node *temp = new Node;
+    temp = head;
+    while (temp -> next != NULL){
+        if (temp -> next = NULL)
+            return temp;
+        if (((temp -> score) > val) and ((temp -> next -> score) < val))
+            return temp;
+        temp = temp -> next
+    }
 
-// }
+}
 
-int highScoresList::length(NodePtr *head){
+int highScoresList::length(){
     int count = 0;
+    Node *temp = new Node;
+    temp = head;
+    if (head == nullptr)
+        return 0;
     while (head != nullptr){
         count++;
         head = head -> next;
