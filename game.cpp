@@ -1,7 +1,5 @@
 // Alyssa Rose
 
-// Alyssa Rose
-
 #include <string>
 #include <cstdio>
 #include <sstream>
@@ -25,17 +23,13 @@ string const SHOW = "show";
 string const KEEP = "keep";
 
 Game::Game(){
-	cerr << __func__ << " " << __LINE__ << endl;
 	cout << "Enter desired dimension of board: ";
 	cin >> dim;
 	Row = 1;
 	Col = dim;
-
-	string **board = new string*[Row];
-	for (int i = 0; i < Row; i++)
-		board[i] = new string[dim];
-
-	//highScores;
+	board = nullptr;
+	srand(time(0));
+	/***highScores****/;
 	score = 0;
 }
 
@@ -49,28 +43,26 @@ void Game::play(){
 		exit(1);
 	}
 	//prt_start();
+	new_brd();
 	prt_brd();
 
-	while (filled() and make_mv()){
+	while (filled() or make_mv()){
 		string in, in2;
+
 		cin >> in;
-		cin >> in2;
+		//cin >> in2;
 		if (in == LEFT){
-			left_push();
-			merge_left();
-			left_push();
+			play_left();
 		}
 		else { //if (in == RIGHT)
-			right_push();
-			merge_right();
-			right_push();
+			play_right();
 		}
 		//else if (in == UP)
 			//move_up();
 		//else if (in == DOWN)
 			//move_down();
 		//else
-			//play_other(in, in2);
+			//play_other(in, in2);	
 	}
 	//end_game();
 }
@@ -86,7 +78,6 @@ Game::~Game(){
 * generates either 2 or 4
 */
 string Game::rando_num(){
-	srand(time(0));
 	double prob = (rand() % 10) + 1;
 	if (prob <= 9)
 		return "2";
@@ -96,7 +87,6 @@ string Game::rando_num(){
 
 void Game::rando_loc(){
 	int col, row;
-	srand(time(0));
 	row = rand() % dim;
 	col = rand() % dim;
 	while (board[Row - 1][col] != BLNK){
@@ -110,7 +100,9 @@ void Game::rando_loc(){
 */
 void Game::new_brd()
 {
-	srand(time(0));
+	board = new string *[Row];
+	for (int i = 0; i < Row; i++)
+		board[0] = new string[dim];
 	for (int i = 0; i < Row; i++){
 		for(int j = 0; j < Col; j++)
 			board[i][j] = BLNK;
@@ -120,7 +112,7 @@ void Game::new_brd()
 		int j = (rand() % dim);
 		//int i = (int)round((rand() % dim));
 		if (board[Row - 1][j] == BLNK){
-			board[Row - 1][j] = rando_num();
+			board[Row - 1][j] = "2";
 			cnt++;
 		}
 	}
@@ -142,6 +134,7 @@ void Game::prt_brd(){
 	for (int i = 0; i < Row; i++)
 		for (int j = 0; j < Col; j++)
 			print_number(board[i][j]);
+	cout << endl;
 }
 
 /*
@@ -202,14 +195,15 @@ bool Game::make_mv(){
 void Game::left_push(){
 	int col_nxt;
 	for (int i = 0; i < Row; i++){
-		for (int j = 0; j < Col; j++){
+		for (int j = 0; j < Col - 2; j++){
 			if (board[i][j] == BLNK){
-				for (col_nxt = j++; col_nxt < dim; col_nxt++){
+				for (col_nxt = j + 1; col_nxt < dim; col_nxt++){
 					if (board[i][col_nxt] != BLNK){
 						board[i][j] = board[i][col_nxt];
 						board[i][col_nxt] = BLNK;
+						break;
 					}
-					//break;
+					
 				}
 			}
 
@@ -225,14 +219,15 @@ void Game::left_push(){
 void Game::right_push(){
 	int col_nxt;
 	for (int i = 0; i < Row; i++){
-		for (int j = Col - 1; j > 0; j--){
+		for (int j = (Col - 1); j >= 1; j--){
 			if (board[i][j] == BLNK){
-				for (col_nxt = j--; col_nxt > 0; col_nxt--){
+				for (col_nxt = j - 1; col_nxt >= 0; col_nxt--){
 					if (board[i][col_nxt] != BLNK){
 						board[i][j] = board[i][col_nxt];
 						board[i][col_nxt] = BLNK;
+						break;
 					}
-					//break;
+					
 				}
 			}
 		}
@@ -281,15 +276,17 @@ void Game::right_push(){
 void Game::merge_left(){
 	int col_nxt;
 	for (int i = 0; i < Row; i++){
-		for (int j = 0; j < Col; j++){
+		for (int j = 0; j < Col - 1; j++){
 			if (board[i][j] != BLNK){
-				for (col_nxt = j++; col_nxt < dim; col_nxt++){
+				for (col_nxt = j + 1; col_nxt < dim; col_nxt++){
 					if (board[i][col_nxt] != BLNK){
 						if (board[i][col_nxt] == board[i][j]){
-							score += string2int(board[i][j]) * 2;
+							score += (string2int(board[i][j]) * 2);
 							board[i][j] = int2string(string2int(board[i][j]) * 2);
 							board[i][col_nxt] = BLNK;
+							break;
 						}
+						break;
 					}
 				}
 			}
@@ -302,11 +299,15 @@ void Game::merge_right(){
 	for(int i = 0; i < Row; i++){
 		for (int j = Col - 1; j > 0; j--){
 			if (board[i][j] != BLNK){
-				for (col_nxt = j--; col_nxt > 0; col_nxt--){
-					if (board[i][col_nxt] == board[i][j]){
-						score += string2int(board[i][j]) * 2;
-						board[i][j] = int2string(string2int(board[i][j]) * 2);
-						board[i][col_nxt] = BLNK;
+				for (col_nxt = (j - 1); col_nxt > 0; col_nxt--){
+					if (board[i][col_nxt] != BLNK){
+						if (board[i][col_nxt] == board[i][j]){
+							score += (string2int(board[i][j]) * 2);
+							board[i][j] = int2string(string2int(board[i][j]) * 2);
+							board[i][col_nxt] = BLNK;
+							break;
+						}
+						break;
 					}
 				}
 			}
@@ -348,3 +349,28 @@ void Game::merge_right(){
 // 	}
 
 // }
+
+/*
+* collective functions that should be called 
+* LEFT is pressed
+*/
+void Game::play_left(){
+	left_push();
+	merge_left();
+	left_push();
+	rando_loc();
+	prt_brd();
+}
+
+/*
+* collective functions to be called if 
+* RIGHT is pressed
+*/
+void Game::play_right(){
+	right_push();
+	merge_right();
+	right_push();
+	rando_loc();
+	prt_brd();
+}
+
