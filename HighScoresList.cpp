@@ -55,7 +55,7 @@ void HighScoresList::save() {
     outFile.open(HIGH_SCORE_FILE);
     
     //will print out all the users in the list
-    outFile << highScoresList.print() << endl;
+    outFile << print() << endl;
 
     outFile << SENTINEL << endl;
     outFile.close();
@@ -66,7 +66,7 @@ void HighScoresList::save() {
 */
 int HighScoresList::highestScore(){
     if (head == nullptr)
-        return NULL;
+        return 0;
     return head->val;
 }
 
@@ -104,7 +104,7 @@ void HighScoresList::printTop5(){
 */
 void HighScoresList::keepTop10(){
     int count = 0;
-    if (highScoresList.length() < 10)
+    if (length() < 10)
         exit(1);
     else {
         Node *temp = new Node;
@@ -138,8 +138,8 @@ void HighScoresList::insert(std::string user, int score){
     tempPtr -> user = user;
     tempPtr -> val = score;
     if (head == nullptr)
-        head = temp;
-    Node *after = after(score, head);
+        head = tempPtr;
+    Node *after = after(score);
     tempPtr -> next = after -> next;
     after -> next = tempPtr;
 }
@@ -175,10 +175,9 @@ void HighScoresList::printUser(std::string user){
 
 }
 
-HighScoresList::Node * HighScoresList::after(int score){
-    Node *temp = new Node;
+HighScoresList::Node* HighScoresList::after(int score){
+    Node *temp;
     temp = head;
-
     while (temp -> next -> next != NULL){
         if (temp -> next == NULL)
             return temp;
@@ -189,7 +188,7 @@ HighScoresList::Node * HighScoresList::after(int score){
 
 }
 
-int HighScoresList::length(Node *head){
+int HighScoresList::length(){
     int count = 0;
     while (head != nullptr){
         count++;
