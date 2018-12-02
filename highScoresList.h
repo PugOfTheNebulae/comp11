@@ -27,10 +27,10 @@ class HighScoresList {
             Node *next;
         };
         Node *head;
-
+        Node *newNode(std::string user, int score);
         void load();
         int length();
-        Node *after(int score);
+        //Node *after(int score);
 };
 
 
