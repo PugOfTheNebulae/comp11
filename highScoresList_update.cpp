@@ -19,29 +19,31 @@ void HighScoresList::load() {
     ifstream inFile;
     inFile.open(HIGH_SCORE_FILE);
     if (not inFile) {
-        head -> next = NULL;
-        head -> next -> user = "";
-        head -> next -> val = 0;
+        head = NULL;
         return;
     }
     string user;
     int score;
-
+    int i = 0;
     while (inFile >> user) {
         if (user == SENTINEL) 
             break;
 
         inFile >> score;
-
-        head -> next = new Node;
-
-        head -> next -> user = user;
-        head -> next -> val = score;
-        head = head -> next;
+        Node *temp = newNode(user, score);
+        if (i == 0){
+            Node *front = temp;
+            i++;
+            head = front;
+        }
+        else {
+            head -> next = temp;
+            head = temp;
+        }
     }
-
+    head = front;
+    delete front;
     inFile.close();
-
 }
 
 /* 
@@ -67,7 +69,7 @@ void HighScoresList::save() {
 int HighScoresList::highestScore(){
     if (head == nullptr)
         return 0;
-    return head->val;
+    return head -> val;
 }
 
 /*
@@ -201,7 +203,7 @@ int HighScoresList::length(){
     return count;
 }
 
-void insert(std::string user, int score){
+void HighScoresList::insert(std::string user, int score){
     Node *temp = new Node;
     temp -> user = user;
     temp -> val = score;
@@ -213,21 +215,21 @@ void insert(std::string user, int score){
     else if((head -> val) <= score){
         temp -> next = head;
         head = temp;
-        exit(1)
+        exit(1);
     }
     Node *prev = head;
     Node *curr = prev -> next;
     else if(curr == NULL){
         prev -> next = temp;
         temp -> next = NULL;
-        exit(1)
+        exit(1);
     }
     else {
         while (curr != NULL){
             if ((curr -> val) <= score){
                 prev -> next = temp;
                 temp -> next = curr;
-                exit(1)
+                exit(1);
             }
             prev = curr;
             curr = curr -> next;
@@ -235,6 +237,11 @@ void insert(std::string user, int score){
         prev -> next = temp;
         temp -> next = NULL;
     }
-
-
+}
+HighScoresList::Node *HighScoresList::newNode(std::string user, int score){
+    Node *result = new Node;
+    result -> user = user;
+    result -> val = score;
+    result -> next = NULL;
+    return result;
 }
