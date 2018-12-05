@@ -17,12 +17,15 @@ HighScoresList::HighScoresList() {
 HighScoresList::~HighScoresList(){
     if (head == NULL)
         delete head;
-    while (head -> next != NULL){
-        head -> next = head -> next -> next;
-        delete head -> next;
+    Node *prev = head;
+    while (head != NULL){
+        head = prev -> next;
+        delete prev;
+        prev = head;
     }
+    delete prev;
     delete head;
-    head = nullptr;
+    head = NULL;
 }
 
 /* 
@@ -40,30 +43,13 @@ void HighScoresList::load() {
     }
     string user;
     int score;
-    int i = 0;
-    Node *front;
-    Node *temp;
     while (inFile >> user) {
         if (user == SENTINEL) 
             break;
 
         inFile >> score;
-        cout << user << " " << score << endl;
-        temp = newNode(user, score);
-        temp -> user = user;
-        temp -> val = score;
-        temp -> next = NULL;
-        if (i == 0){
-            front = temp;
-            head = front;
-            i++;
-        }
-            head -> next = temp;
-            head = temp;
-        
+        insert(user, score);
     }
-    head = front;
-    delete front;
     inFile.close();
 }
 
@@ -88,8 +74,9 @@ void HighScoresList::load() {
 * returns an int representing the highest score in the list
 */
 int HighScoresList::highestScore(){
-    if (head == NULL)
+    if (head == NULL){
         return 0;
+    }
     return head -> val;
 }
 
@@ -98,11 +85,12 @@ int HighScoresList::highestScore(){
 * 
 */
 void HighScoresList::print(){
+    Node *temp = head;
     if (head == NULL)
         return;
-    while (head->next != NULL){
-        cout << head -> user << " " << head->val << endl;
-        head = head -> next;
+    while (temp != NULL){
+        cout << temp -> user << " " << temp -> val << endl;
+        temp = temp -> next;
     }
 }
 
@@ -112,13 +100,18 @@ void HighScoresList::print(){
 */
 void HighScoresList::printTop5(){
     int count = 0;
+    Node *temp;
+    temp = head;
     if (head == NULL)
         return;
-    while ((head->next != NULL) or (count < 5)){
-        cout << head->user<< " " << head -> val << endl;
-        head = head -> next;
+    if (length() <= 5)
+        print();
+    while (count <= 4){
+        cout << temp -> user << " " << temp -> val << endl;
+        temp = temp -> next;
         count++;
     }
+    
 
 }
 
@@ -180,10 +173,15 @@ void HighScoresList::keepTop10(){
 void HighScoresList::clear(){
     if (head == NULL)
         return;
-    while (head -> next != NULL){
-        head -> next = head -> next -> next;
-        delete head -> next;
+    Node *temp = head;
+    Node *forward = temp -> next;
+    while (forward != NULL){
+        delete temp;
+        temp = forward;
+        forward = forward -> next;
     }
+    delete temp;
+    delete forward;
 }
 
 /*
@@ -224,9 +222,10 @@ void HighScoresList::printUser(string user){
 */
 int HighScoresList::length(){
     int count = 0;
-    while (head != NULL){
+    Node *temp = head;
+    while (temp != NULL){
         count++;
-        head = head -> next;
+        temp = temp -> next;
     }
     return count;
 }
@@ -240,6 +239,7 @@ void HighScoresList::insert(string user, int score){
     Node *temp = new Node;
     temp -> user = user;
     temp -> val = score;
+    //use newNode()
     if (head == NULL){
         temp -> next = NULL;
         head = temp;
@@ -269,8 +269,11 @@ void HighScoresList::insert(string user, int score){
             prev = curr;
             curr = curr -> next;
         }
-        prev -> next = temp;
-        temp -> next = NULL;
+        if (curr == NULL){
+            prev -> next = temp;
+            temp -> next = NULL;
+        }
+        
     }
 }
 
