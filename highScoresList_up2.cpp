@@ -15,17 +15,22 @@ HighScoresList::HighScoresList() {
 * standard deconstructor
 */
 HighScoresList::~HighScoresList(){
-    if (head == NULL)
-        delete head;
-    Node *prev = head;
-    while (head != NULL){
-        head = prev -> next;
-        delete prev;
-        prev = head;
-    }
-    delete prev;
-    delete head;
-    head = NULL;
+    clear();
+    //delete head;
+    // if (head == NULL){
+    //     delete head;
+    // }
+    // else {
+    //     Node *prev = head;
+    //     while (head != NULL){
+    //         head = prev -> next;
+    //         cout << head -> user << endl;
+    //         delete prev;
+    //         prev = head;
+    //     }
+    //     delete prev;
+    //     delete head;
+    // }
 }
 
 /* 
@@ -121,25 +126,29 @@ void HighScoresList::printTop5(){
 */
 void HighScoresList::keepTop10(){
     int count = 0;
-    if (length() < 10)
+    cout << length() << endl;
+
+    if (length() <= 10)
         return;
     else {
-        Node *temp = new Node;
+        Node *temp;
         temp = head;
-        Node *temp2 = new Node;
-        Node *dis = new Node;
-        while (count < 10){
-            if (count == 10){
-                temp2 = temp;
-                while (temp2 -> next != NULL){
-                    dis = temp2 -> next;
-                    temp2 -> next = dis -> next;  
-                }
-            }
+        Node *temp2 = temp -> next;
+        Node *dis;
+        while (count < 9){
+            temp = temp -> next;
             count++;
+            cout << count << endl;
+            cout << temp -> user << endl;
         }
-        delete dis;
-        delete temp;
+        dis = temp -> next;
+        while (temp2 != NULL){
+            temp2 = dis -> next;
+            delete dis;
+            dis = temp2;
+        }
+        temp -> next = NULL;
+        cout << temp -> user << endl;
         delete temp2;
     }
 
@@ -180,8 +189,8 @@ void HighScoresList::clear(){
         temp = forward;
         forward = forward -> next;
     }
+    head = NULL;
     delete temp;
-    delete forward;
 }
 
 /*
