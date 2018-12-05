@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <ostream>
 #include <string>
 
 #include "highScoresList.h"
@@ -8,20 +7,22 @@
 using namespace std;
 /* Constructor */
 HighScoresList::HighScoresList() {
-    head = nullptr;
+    head = NULL;
     load();
 }
 
 /*
-* Purpose: creates a new node given a core and a user's name
-* Returns: pointer to the new node
+* standard deconstructor
 */
-HighScoresList::Node *HighScoresList::newNode(string user, int score){
-    Node *result = new Node;
-    result -> user = user;
-    result -> val = score;
-    result -> next = NULL;
-    return result;
+HighScoresList::~HighScoresList(){
+    if (head == NULL)
+        delete head;
+    while (head -> next != NULL){
+        head -> next = head -> next -> next;
+        delete head -> next;
+    }
+    delete head;
+    head = nullptr;
 }
 
 /* 
@@ -47,17 +48,19 @@ void HighScoresList::load() {
             break;
 
         inFile >> score;
-        
+        cout << user << " " << score << endl;
         temp = newNode(user, score);
+        temp -> user = user;
+        temp -> val = score;
+        temp -> next = NULL;
         if (i == 0){
             front = temp;
-            i++;
             head = front;
+            i++;
         }
-        else {
             head -> next = temp;
             head = temp;
-        }
+        
     }
     head = front;
     delete front;
@@ -70,16 +73,16 @@ void HighScoresList::load() {
  * sentinel.
  * This will overwrite what was originally in HIGH_SCORE_FILE.
  */
-void HighScoresList::save() {
-    ofstream outFile;
-    outFile.open(HIGH_SCORE_FILE);
+// void HighScoresList::save() {
+//     ofstream outFile;
+//     outFile.open(HIGH_SCORE_FILE);
     
-    //will print out all the users in the list
-    outFile << print() << endl;
+//     //will print out all the users in the list
+//     outFile << print() << endl;
 
-    outFile << SENTINEL << endl;
-    outFile.close();
-}   
+//     outFile << SENTINEL << endl;
+//     outFile.close();
+// }   
 
 /*
 * returns an int representing the highest score in the list
@@ -247,7 +250,8 @@ void HighScoresList::insert(string user, int score){
         head = temp;
         return;
     }
-    Node *prev, *curr;
+    Node *prev;
+    Node *curr;
     prev = head;
     curr = prev -> next;
     if (curr == NULL){
@@ -270,4 +274,14 @@ void HighScoresList::insert(string user, int score){
     }
 }
 
-
+/*
+* Purpose: creates a new node given a core and a user's name
+* Returns: pointer to the new node
+*/
+HighScoresList::Node *HighScoresList::newNode(string user, int score){
+    Node *result = new Node;
+    result -> user = user;
+    result -> val = score;
+    result -> next = NULL;
+    return result;
+}
