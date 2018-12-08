@@ -1,7 +1,18 @@
+/*
+* Project 2: 2048
+* highScoreList.h
+* Author: Alyssa Rose
+* Date: 12-1-2018
+* Purpose: header file for highScoreList.cpp
+* Notes: none
+* Known Bugs: none
+*/
+
 #ifndef HIGHSCORESLIST_H
 #define HIGHSCORESLIST_H
 
 #include <string>
+#include <iostream>
 
 class HighScoresList {
     public:
@@ -12,10 +23,9 @@ class HighScoresList {
         void print();
         void printTop5();
         void keepTop10();
+        void printUser(std::string user);
         void insert(std::string user, int score);
         void clear();
-        void printUser(std::string user);
-        void deleteUser(std::string user);   // A JFFE, not required
 
     private:
         const std::string SENTINEL = "-1";
@@ -27,11 +37,11 @@ class HighScoresList {
             Node *next;
         };
         Node *head;
-        Node *newNode(std::string user, int score);
         void load();
         int length();
-        //Node *after(int score);
+        Node *newNode(std::string user, int val);
 };
 
 
 #endif
+
