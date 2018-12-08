@@ -16,21 +16,6 @@ HighScoresList::HighScoresList() {
 */
 HighScoresList::~HighScoresList(){
     clear();
-    //delete head;
-    // if (head == NULL){
-    //     delete head;
-    // }
-    // else {
-    //     Node *prev = head;
-    //     while (head != NULL){
-    //         head = prev -> next;
-    //         cout << head -> user << endl;
-    //         delete prev;
-    //         prev = head;
-    //     }
-    //     delete prev;
-    //     delete head;
-    // }
 }
 
 /* 
@@ -64,16 +49,19 @@ void HighScoresList::load() {
  * sentinel.
  * This will overwrite what was originally in HIGH_SCORE_FILE.
  */
-// void HighScoresList::save() {
-//     ofstream outFile;
-//     outFile.open(HIGH_SCORE_FILE);
+void HighScoresList::save() {
+    ofstream outFile;
+    outFile.open(HIGH_SCORE_FILE);
     
-//     //will print out all the users in the list
-//     outFile << print() << endl;
-
-//     outFile << SENTINEL << endl;
-//     outFile.close();
-// }   
+    Node *temp = head;
+    while (temp != NULL){
+    //will print out all the users in the list
+        outFile << temp -> user << " " << temp -> val << endl;
+        temp = temp -> next;
+    }
+    outFile << SENTINEL << endl;
+    outFile.close();
+}   
 
 /*
 * returns an int representing the highest score in the list
@@ -126,8 +114,6 @@ void HighScoresList::printTop5(){
 */
 void HighScoresList::keepTop10(){
     int count = 0;
-    cout << length() << endl;
-
     if (length() <= 10)
         return;
     else {
@@ -245,9 +231,9 @@ int HighScoresList::length(){
 * Return: Nothing
 */
 void HighScoresList::insert(string user, int score){
-    Node *temp = new Node;
-    temp -> user = user;
-    temp -> val = score;
+    Node *temp = newNode(user, score);
+    //temp -> user = user;
+    //temp -> val = score;
     //use newNode()
     if (head == NULL){
         temp -> next = NULL;
