@@ -1,9 +1,18 @@
-// Alyssa Rose
+/*
+* Project 2: 2048
+* game.h
+* Author: Alyssa Rose
+* Date: 12-1-2018
+* Purpose: header file for game.cpp
+* Notes: none
+* Known Bugs: none
+*/
 
 #ifndef GAME_H
 #define GAME_H
 
 #include <string>
+#include <iostream>
 
 #include "HighScoresList.h"
 
@@ -13,7 +22,7 @@ class Game {
         ~Game();
         void play();
     private:
-    	HighScoresList highScore;
+    	HighScoresList highScores;
     	int dim;
         int score;
         std::string **board;
@@ -29,7 +38,7 @@ class Game {
         void prt_brd();
         bool filled();
         bool make_mv();
-        void play_other(std::string in, std::string in2);
+        void play_other(std::string in);
         void end_game();
 
         void left_push();
