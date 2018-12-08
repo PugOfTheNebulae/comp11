@@ -97,15 +97,16 @@ void HighScoresList::printTop5(){
     temp = head;
     if (head == NULL)
         return;
-    if (length() <= 5)
+    if (length() <= 5){
         print();
-    while (count <= 4){
-        cout << temp -> user << " " << temp -> val << endl;
-        temp = temp -> next;
-        count++;
     }
-    
-
+    else{
+        while (count <= 4){
+            cout << temp -> user << " " << temp -> val << endl;
+            temp = temp -> next;
+            count++;
+        }
+    }
 }
 
 /*
@@ -139,27 +140,6 @@ void HighScoresList::keepTop10(){
     }
 
 }
-
-/*
-* takes a string name and an int score
-* and creates a new node for this entry
-* and inserts it into the linked list sorted
-* in decreasing order of scores
-* if scores are tied, the new node comes first
-*/
-//****************************************************************
-// void HighScoresList::insert(string user, int score){
-//     Node *tempPtr = new Node;
-//     tempPtr -> user = user;
-//     tempPtr -> val = score;
-//     if (head == nullptr)
-//         head = tempPtr;
-//     Node *after = after(score);
-//     tempPtr -> next = after -> next;
-//     after -> next = tempPtr;
-// }
-//******************************************************************
-
 
 /*
 * clears the linked list and frees all memory
@@ -196,20 +176,6 @@ void HighScoresList::printUser(string user){
     }
 
 }
-//************************************************************//
-// HighScoresList::Node* HighScoresList::after(int score){
-//     Node *temp;
-//     temp = head;
-//     while (temp -> next -> next != NULL){
-//         if (temp -> next == NULL)
-//             return temp;
-//         if (((temp -> val) > score) and ((temp -> next -> val) < score))
-//             return temp;
-//         temp = temp -> next;
-//     }
-
-// }
-//***********************************************************//
 
 /* 
 * Purpose: finds the length of the linked list
@@ -219,8 +185,8 @@ int HighScoresList::length(){
     int count = 0;
     Node *temp = head;
     while (temp != NULL){
-        count++;
         temp = temp -> next;
+        count++;
     }
     return count;
 }
@@ -232,9 +198,6 @@ int HighScoresList::length(){
 */
 void HighScoresList::insert(string user, int score){
     Node *temp = newNode(user, score);
-    //temp -> user = user;
-    //temp -> val = score;
-    //use newNode()
     if (head == NULL){
         temp -> next = NULL;
         head = temp;
@@ -268,7 +231,6 @@ void HighScoresList::insert(string user, int score){
             prev -> next = temp;
             temp -> next = NULL;
         }
-        
     }
 }
 
