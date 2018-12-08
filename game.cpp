@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "highScoresList.h"
 #include "game.h"
 #include "int-string.h"
 using namespace std;
@@ -33,7 +34,6 @@ Game::Game(){
 	Col = dim;
 	board = nullptr;
 	srand(time(0));
-	highScores;
 	score = 0;
 }
 
@@ -59,24 +59,30 @@ void Game::play(){
 	prt_start();
 	new_brd();
 	prt_brd();
+	//highScores.clear();
 
 	while (filled() or make_mv()){
 		string in, in2;
-
 		cin >> in;
-		//cin >> in2;
+		if (in == "show "){
+			cin >> in2;
+			highScores.printUser(in2);
+		}
 		if (in == LEFT)
 			play_left();
 		else if (in == RIGHT)
 			play_right();
 		else if (in == UP)
-			move_up();
+			play_up();
 		else if (in == DOWN)
-			move_down();
+			play_down();
+		else if (in == QUIT)
+			break;
 		else
-			play_other(in, in2);	
+			play_other(in);	
 	}
 	end_game();
+	highScores.save();
 }
 
 /*
@@ -131,7 +137,7 @@ void Game::new_brd()
 {
 	board = new string *[Row];
 	for (int i = 0; i < Row; i++)
-		board[0] = new string[dim];
+		board[i] = new string[Col];
 	for (int i = 0; i < Row; i++){
 		for(int j = 0; j < Col; j++)
 			board[i][j] = BLNK;
@@ -152,7 +158,7 @@ void Game::new_brd()
 */
 void Game::prt_start(){
 	cout << "Starting game! High score is "
-	<< highScores.highestScore(); << endl;
+	<< highScores.highestScore() << endl;
 }
 
 /*
@@ -163,10 +169,12 @@ void Game::prt_start(){
 */
 void Game::prt_brd(){
 	cout << "Current score: " << score << endl;
-	for (int i = 0; i < Row; i++)
+	for (int i = 0; i < Row; i++){
 		for (int j = 0; j < Col; j++)
 			print_number(board[i][j]);
-	cout << endl;
+		cout << endl;
+	}
+	
 }
 
 /*
@@ -193,14 +201,14 @@ bool Game::filled(){
 * no move is possible
 */
 bool Game::make_mv(){
-	for (int i = 0; i < Row - 1; i++){
-		for (int j = 0; j < Col - 1; j++){
+	for (int i = 0; i < Row; i++){
+		for (int j = 0; j < Col; j++){
 			if ((board[i+1][j] == board[i][j]) or
 				(board[i][j+1] == board[i][j]))
-				return 1;
+				return true;
 		}
 	}
-	return 0;
+	return false;
 }
 
 void Game::end_game(){
@@ -210,19 +218,16 @@ void Game::end_game(){
 	highScores.insert(name, score);
 }
 
-void Game::play_other (string in, string in2){
+//TODO read in 2 words
+void Game::play_other (string in){
 	if (in == DISP5)
 		highScores.printTop5();
-	if else (in == SHOW)
-		highScores.print_user(in2);
-	if else(in == QUIT)
-		end_game(score);
-	if else(in == CLR)
+	else if(in == CLR)
 		highScores.clear();
-	if else(in == KEEP)
-		highScores.keepTopTen();
+	else if(in == KEEP)
+		highScores.keepTop10();
 	else
-		cout << "Command not recognized. Please try again.\n"
+		cout << "Command not recognized. Please try again.\n";
 }
 
 
@@ -236,7 +241,7 @@ void Game::play_other (string in, string in2){
 void Game::left_push(){
 	int col_nxt;
 	for (int i = 0; i < Row; i++){
-		for (int j = 0; j < Col - 2; j++){
+		for (int j = 0; j < Col - 1; j++){
 			if (board[i][j] == BLNK){
 				for (col_nxt = j + 1; col_nxt < dim; col_nxt++){
 					if (board[i][col_nxt] != BLNK){
@@ -262,7 +267,7 @@ void Game::left_push(){
 void Game::right_push(){
 	int col_nxt;
 	for (int i = 0; i < Row; i++){
-		for (int j = (Col - 1); j > 1; j--){
+		for (int j = (Col - 1); j > 0; j--){
 			if (board[i][j] == BLNK){
 				for (col_nxt = j - 1; col_nxt >= 0; col_nxt--){
 					if (board[i][col_nxt] != BLNK){
@@ -285,10 +290,10 @@ void Game::right_push(){
 */
 void Game::down_push(){
 	int row_nxt;
-	for (int i = (Row - 1); i > 1; i--){
+	for (int i = (Row - 1); i > 0; i--){
 		for (int j = 0; j < Col; j++){
 			if (board[i][j] == BLNK){
-				for (row_nxt = (i - 1); row_nxt > 0; row_nxt--){
+				for (row_nxt = (i - 1); row_nxt >= 0; row_nxt--){
 					if (board[row_nxt][j] != BLNK){
 						board[i][j] = board[row_nxt][j];
 						board[row_nxt][j] = BLNK;
@@ -312,8 +317,8 @@ void Game::up_push(){
 	int row_nxt;
 	for (int i = 0; i < dim; i++){
 		for (int j = 0; j < dim; j++){
-			if (board[i][j] = BLNK){
-				for (row_nxt = i++; row_nxt < dim; row_nxt++){
+			if (board[i][j] == BLNK){
+				for (row_nxt = (i + 1); row_nxt < dim; row_nxt++){
 					if(board[row_nxt][j] != BLNK){
 						board[i][j] = board[row_nxt][j];
 						board[row_nxt][j] = BLNK;
@@ -384,11 +389,15 @@ void Game::merge_right(){
 	}
 }
 
+/*
+* Purpose: Move the pieces down
+* Return: nothing
+*/
 void Game::merge_down(){
 	int row_nxt;
 	for (int i = (Row - 1); i > 0; i--){
 		for (int j = 0; j < Col; j++){
-			if (board[i][j] == BLNK){
+			if (board[i][j] != BLNK){
 				for (row_nxt = (i - 1); row_nxt > 0; row_nxt--){
 					if (board[row_nxt][j] != BLNK){
 						if (board[row_nxt][j] == board[i][j]){
@@ -405,11 +414,15 @@ void Game::merge_down(){
 	}
 }
 
+/*
+* Function: moves the pieces up
+* Return: nothing
+*/
 void Game::merge_up(){
 	int row_nxt;
-	for (int i = 0; i < (Row - 1); i++){
+	for (int i = 0; i < Row; i++){
 		for (int j = 0; j < Col; j++){
-			if (board[i][j] == BLNK){
+			if (board[i][j] != BLNK){
 				for (row_nxt = (i + 1); row_nxt < dim; row_nxt++){
 					if (board[row_nxt][j] != BLNK){
 						if(board[row_nxt][j] == board[i][j]){
@@ -453,3 +466,30 @@ void Game::play_right(){
 	rando_loc();
 	prt_brd();
 }
+
+/*
+* Purpose: collective functions that should be called 
+* if up is pressed
+* Effects: changes board by calling helper funcs
+*/
+void Game::play_up(){
+	up_push();
+	merge_up();
+	up_push();
+	rando_loc();
+	prt_brd();
+}
+
+/*
+* Purpose: collective functions that should be called 
+* if down is pressed
+* Effects: changes board by calling helper funcs
+*/
+void Game::play_down(){
+	down_push();
+	merge_down();
+	down_push();
+	rando_loc();
+	prt_brd();
+}
+
